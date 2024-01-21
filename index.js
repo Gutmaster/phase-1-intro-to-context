@@ -8,6 +8,11 @@ function createEmployeeRecord(infoArray){
         'timeInEvents': [],
         'timeOutEvents': []
     }
+    try {
+        throw new Error("Whoops!");
+      } catch (e) {
+        console.error(`${e.name}: ${e.message}`);
+      }
     return newRecord
 }
 
@@ -62,11 +67,9 @@ function wagesEarnedOnDate(record, date){
 }
 
 function allWagesFor(record){
-    let wageTotal = 0
-    for(let day of record.timeInEvents){
-        wageTotal += wagesEarnedOnDate(record, day.date)
-    }
-    return wageTotal
+    return record.timeInEvents.reduce(function(accumulator, element){
+        return wagesEarnedOnDate(record, element.date) + accumulator
+    }, 0)
 }
 
 function calculatePayroll(records){
